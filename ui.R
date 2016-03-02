@@ -2,17 +2,30 @@
 
 library(shiny)
 
-shinyUI(fluidPage(sidebarLayout(
-    titlePanel("UCI DSI Shiny Server"),
+shinyUI(fluidPage(
+    h1("UCI DSI Shiny Server"),
+    h2("Navigate to App"),
     fluidRow(
-        column(5, wellPanel(
-            h2("Select App")
-        )),
-        column(5, wellPanel(
-            h2("Upload to Github"),
-            textInput("github.name", "Enter Github name."),
-            textInput("repo.name", "Enter repo name."),
-            actionButton("upload.pressed", "Upload")
-        )))),
-    title = 'Options groups for select(ize) input'))
+        column(6, offset=0.5, wellPanel(
+            selectInput("appname", "Select App",
+                        choices=c("sampling", "test")),
+            actionButton("go.to.app", "Go")
+        ))),
+    h2("Deploy to Server"),
+    fluidRow(
+        column(6, offset=0.5, wellPanel(
+            h3("Download from Github"),
+            textInput("github.name", "Enter Github name:"),
+            textInput("repo.name", "Enter repo name:"),
+            #,
+            #textInput("dir.name", "Enter directory name:")
+            #,
+            #fileInput("app", label = h3("Select Application File (.zip)"))
+            actionButton("download.pressed", "Download")
+        ))),
+    fluidRow(
+        column(6, offset=0.5,
+               verbatimTextOutput("console")
+        ))
+    ))
 
