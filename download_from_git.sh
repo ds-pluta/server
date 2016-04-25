@@ -6,8 +6,7 @@ DIR=$3
 
 OVERWRITE=true
 
-#APP_ROOT=/home/shiny
-APP_ROOT=/home/dp/UCI/DSI/git
+APP_ROOT=/home/shiny
 
 ## Verify input and download github repo.
 if [ -z $USER ]
@@ -43,6 +42,4 @@ else
     mkdir -p $APP_ROOT/$USER
 fi
 mv $REPO $APP_ROOT/$USER
-
-echo "Download complete, your app should now be available on the server."
 
