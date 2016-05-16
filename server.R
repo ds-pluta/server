@@ -1,12 +1,10 @@
 library(shiny)
 server.url <- "http://shiny.datascience.uci.edu:80/"
-#app.directory <- "/home/dp/UCI/DSI/shiny_apps/"
-app.directory <- "/home/shiny/"
+#app.directory <- "/home/shiny/"
+app.directory <- "/home/dp/UCI/DSI/shiny_apps/"
 download.script <- "./download_from_git.sh"
 
-
 create.link <- function(app.name, user.name=NULL) {
-    print(app.name, user.name)
     if(is.null(user.name))
         return(sprintf('<a href="%s%s" target="_blank" class="btn btn-primary">%s</a>', server.url, app.name, app.name))
     else
@@ -17,7 +15,7 @@ shinyServer(function(input, output, session) {
     # Header logo
     output$logo <- renderImage({
         return(list(
-            src="data_science_logo.png",
+            src="UCI_DSI_logo.png",
             filetype="image/png"
         ))
     }, deleteFile=FALSE)
@@ -25,6 +23,7 @@ shinyServer(function(input, output, session) {
     # Code for app navigation
     app.list <- sapply(strsplit(system2("find", args=c(paste(app.directory, "-maxdepth 2 -type d -exec ls -d '{}' \\;")),
                         stdout=TRUE, stderr=TRUE), app.directory), function(x) x[2])[-1]
+    print(app.list)
     app.list <- app.list[!grepl("\\/\\.", app.list) & (!grepl("^\\.", app.list))]
     app.list <- app.list[which(app.list!="server")]
     app.list <- c(app.list[grepl("UCI", app.list)], app.list[!grepl("UCI", app.list)])
@@ -40,5 +39,14 @@ shinyServer(function(input, output, session) {
         output$console <- renderPrint({
             download.status
         })
+    })
+
+    output$thumbnail1 <- renderUI({
+        link <- paste0(server.url, "UCIDataScienceInitiative/ClimateActionShiny/")
+        HTML(paste0('<a href=', link, ' class="img-rounded"><img src="ClimateActionShiny.png" width=400 height=300 style="border:1px solid black;"></a>'))
+    })
+    output$thumbnail2 <- renderUI({
+        link <- paste0(server.url, "linggeli7/Sampling/")
+        HTML(paste0('<a href=', link, ' class="img-rounded"><img src="sampling_distribution.png" width=400 height=300 style="border:1px solid black;"></a>'))
     })
 })
